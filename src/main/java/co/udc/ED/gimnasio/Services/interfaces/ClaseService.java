@@ -86,7 +86,7 @@ public interface ClaseService {
      * @throws IllegalArgumentException si la clase carece de datos obligatorios
      *         o si el código ya existe
      */
-    void agregarClase(Clase clase);
+    Clase agregarClase(Clase clase);
 
     /**
      * Elimina una clase del sistema.
@@ -101,7 +101,7 @@ public interface ClaseService {
      * @throws NullPointerException si clase es null (recomendado)
      * @throws IllegalArgumentException si la clase no existe en el sistema
      */
-    void eliminarClase(Clase clase);
+    Clase eliminarClase(Clase clase);
 
     /**
      * Modifica los datos de una clase existente.
