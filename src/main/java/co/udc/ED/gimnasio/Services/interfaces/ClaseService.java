@@ -29,7 +29,7 @@ import co.udc.ED.gimnasio.models.gym.Clase;
  *   servicio.modificarClase(yoga);
  * </pre>
  *
- * @author Desarrollador
+ * @author Kevin Gómez
  * @version 1.0
  * @since 1.0
  * @see Clase
