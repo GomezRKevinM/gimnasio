@@ -1,4 +1,4 @@
-package co.udc.ED.gimnasio.Services.interfaces;
+package co.udc.ED.gimnasio.services.interfaces;
 
 import co.udc.ED.gimnasio.models.Lista;
 import co.udc.ED.gimnasio.models.gym.Clase;

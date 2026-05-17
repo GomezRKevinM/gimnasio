@@ -1,4 +1,4 @@
-package co.udc.ED.gimnasio.Services.interfaces;
+package co.udc.ED.gimnasio.services.interfaces;
 
 import co.udc.ED.gimnasio.models.Cola;
 import co.udc.ED.gimnasio.models.Lista;
@@ -52,7 +52,7 @@ import co.udc.ED.gimnasio.models.gym.InscripcionClase;
  * @version 1.0
  * @since 1.0
  * @see InscripcionClase
- * @see co.udc.ED.gimnasio.Services.SistemaInscripcionClase
+ * @see co.udc.ED.gimnasio.services.SistemaInscripcionClase
  * @see co.udc.ED.gimnasio.enums.InscripcionEstado
  * @see co.udc.ED.gimnasio.fixture.CustomFixture
  */
