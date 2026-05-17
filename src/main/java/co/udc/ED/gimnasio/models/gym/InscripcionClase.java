@@ -1,5 +1,7 @@
 package co.udc.ED.gimnasio.models.gym;
 
+import co.udc.ED.gimnasio.enums.InscripcionEstado;
+
 import java.sql.Timestamp;
 
 /**
@@ -44,7 +46,12 @@ public record InscripcionClase(
         /**
          * Nombre o identificador del cliente que se inscribe
          */
-        String cliente) {
+        String cliente,
+
+        /**
+         * Estado de la inscripción, indicando si está confirmada, en espera o cancelada
+         */
+        InscripcionEstado estado) {
 
     /**
      * Compara esta inscripción con otro objeto.
