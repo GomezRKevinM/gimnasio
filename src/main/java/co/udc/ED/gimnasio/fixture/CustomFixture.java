@@ -16,6 +16,7 @@ public class CustomFixture {
     public static final Lista CLASES_ELIMINADAS = new Lista();
     public static final Lista INSTRUCTORES_ELIMINADOS = new Lista();
     public static final Lista INSCRIPCIONES_CANCELADAS = new Lista();
+    public static final Lista INSCRIPCIONES_FINALIZADAS = new Lista();
 
     public static final Pila OPERACIONES = new Pila();
 }
