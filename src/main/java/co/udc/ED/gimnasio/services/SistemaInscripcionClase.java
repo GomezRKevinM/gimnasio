@@ -1,4 +1,4 @@
-package co.udc.ED.gimnasio.Services;
+package co.udc.ED.gimnasio.services;
 
 /**
  * @Author: Kevin Gómez

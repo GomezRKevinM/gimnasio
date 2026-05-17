@@ -1,4 +1,4 @@
-package co.udc.ED.gimnasio.Services.interfaces;
+package co.udc.ED.gimnasio.services.interfaces;
 
 import co.udc.ED.gimnasio.models.Lista;
 import co.udc.ED.gimnasio.models.gym.Instructor;
@@ -37,7 +37,7 @@ import co.udc.ED.gimnasio.models.gym.Instructor;
  * @version 1.0
  * @since 1.0
  * @see Instructor
- * @see co.udc.ED.gimnasio.Services.SistemaInstructor
+ * @see co.udc.ED.gimnasio.services.SistemaInstructor
  * @see co.udc.ED.gimnasio.fixture.CustomFixture
  */
 public interface InstructorService {
