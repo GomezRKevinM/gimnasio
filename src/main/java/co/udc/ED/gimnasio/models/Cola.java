@@ -51,7 +51,7 @@ public class Cola {
      *
      * @param dato el nodo que contiene el objeto a encolar
      */
-    public void encolar(Nodo dato){
+    public void encolar(Object dato){
         Nodo nuevo = new Nodo(dato);
 
         if(ultimo == null){

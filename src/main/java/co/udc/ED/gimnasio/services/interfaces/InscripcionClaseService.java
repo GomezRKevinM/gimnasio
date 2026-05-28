@@ -1,8 +1,11 @@
 package co.udc.ED.gimnasio.services.interfaces;
 
+import co.udc.ED.gimnasio.enums.InscripcionEstado;
 import co.udc.ED.gimnasio.models.Cola;
 import co.udc.ED.gimnasio.models.Lista;
+import co.udc.ED.gimnasio.models.gym.Clase;
 import co.udc.ED.gimnasio.models.gym.InscripcionClase;
+import co.udc.ED.gimnasio.models.gym.Instructor;
 
 /**
  * Interfaz que define el contrato para la gestión de inscripciones a clases del gimnasio.
@@ -162,7 +165,7 @@ public interface InscripcionClaseService {
      *
      * @see co.udc.ED.gimnasio.enums.InscripcionEstado#PENDIENTE
      */
-    InscripcionClase agregarInscripcion(InscripcionClase inscripcion);
+    InscripcionClase agregarInscripcion(String cliente, Clase clase);
 
     /**
      * Aprueba una inscripción pendiente, cambiando su estado a FINALIZADA.
