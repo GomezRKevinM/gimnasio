@@ -1,6 +1,7 @@
 package co.udc.ED.gimnasio.events.Inscripcion;
 
 import co.udc.ED.gimnasio.events.DomainEvent;
+import co.udc.ED.gimnasio.models.gym.InscripcionClase;
 
 /**
  * Evento de Dominio - EliminarInscripcion
@@ -55,7 +56,7 @@ public class EliminarInscripcion extends DomainEvent {
      * Este atributo inmutable (final) preserva el identificador de la inscripción
      * eliminada para propósitos de auditoría y recuperación.
      */
-    private final String idInscripcion;
+    private final InscripcionClase inscripcion;
 
     /**
      * Constructor de EliminarInscripcion
@@ -74,9 +75,9 @@ public class EliminarInscripcion extends DomainEvent {
      * @throws NullPointerException si idInscripcionEliminada es null
      * @throws IllegalArgumentException si idInscripcionEliminada está vacío
      */
-    public EliminarInscripcion(String idInscripcionEliminada) {
+    public EliminarInscripcion(InscripcionClase idInscripcionEliminada) {
         super(NOMBRE);
-        this.idInscripcion = idInscripcionEliminada;
+        this.inscripcion = idInscripcionEliminada;
     }
 
     /**
@@ -99,7 +100,7 @@ public class EliminarInscripcion extends DomainEvent {
      */
     @Override
     public String toString(){
-        return String.format("Evento: %s, Fecha: %s, Detalles: Inscripción eliminada con ID %s",
-                super.nombre, super.fecha, idInscripcion);
+        return String.format("Evento: %s, Fecha: %s, Detalles: Inscripción eliminada %s",
+                super.nombre, super.fecha, inscripcion.toString());
     }
 }

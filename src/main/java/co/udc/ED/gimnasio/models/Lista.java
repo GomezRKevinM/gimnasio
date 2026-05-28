@@ -1,5 +1,7 @@
 package co.udc.ED.gimnasio.models;
 
+import java.util.Objects;
+
 /**
  * Clase Lista - Lista doblemente enlazada genérica
  *
@@ -222,6 +224,82 @@ public class Lista {
                 return actual.getData();
             }
             actual = actual.getSiguiente();
+        }
+        return null;
+    }
+
+    /**
+     * Busca el índice (posición) del primer elemento en la lista que sea igual
+     * al dato proporcionado.
+     *
+     * Comportamiento:
+     * - Recorre la lista desde la cabeza hasta la cola comparando cada nodo con
+     *   el argumento usando `equals`.
+     * - Retorna el índice (0-based) del primer nodo cuyo `getData().equals(dato)`
+     *   devuelva true.
+     * - Si no encuentra coincidencias, retorna -1.
+     *
+     * Complejidad: O(n) en el peor caso, donde n es la cantidad de nodos en la lista.
+     *
+     * @param dato el objeto a buscar en la lista (puede ser null, pero el método
+     *             actualmente no maneja null en los datos almacenados de forma segura)
+     * @return el índice (0-based) del primer elemento que coincide, o -1 si no se encontró
+     */
+    public int encontrarIndexDe(Object dato){
+        Nodo actual = cabeza;
+        int index = 0;
+        while (actual != null) {
+            if (Objects.equals(actual.getData(), dato)) return index;
+            actual = actual.getSiguiente();
+            index++;
+        }
+        return -1;
+    }
+
+    /**
+     * Reemplaza el contenido (data) del nodo en la posición indicada por `index`
+     * con `newData` y retorna el nodo modificado.
+     *
+     * Comportamiento:
+     * - Recorre la lista hasta alcanzar el índice solicitado.
+     * - Si se alcanza el índice, reemplaza el dato del nodo con `newData` (mutación)
+     *   y retorna el propio nodo (instancia de `Nodo`) como `Object`.
+     * - Si la lista termina antes de encontrar el índice (índice fuera de rango),
+     *   retorna null.
+     *
+     * Valor de retorno y efectos:
+     * - Retorna la instancia de `Nodo` que fue modificada. No retorna el dato antiguo.
+     *   Si se desea obtener el dato anterior, actualmente queda almacenado en la
+     *   variable local `oldData` (no usada fuera del método).
+     * - Efecto lateral: muta el dato interno del nodo. No modifica `size`.
+     *
+     * Complejidad: O(n) en el peor caso (recorrido hasta el índice).
+     *
+     * Observaciones / recomendaciones:
+     * - La firma actual devuelve `Object` y el método devuelve la instancia `Nodo`.
+     *   Considerar cambiar el tipo de retorno a `Nodo` o a `Object` consistente
+     *   con la API (por ejemplo devolver el dato antiguo `oldData` o booleano).
+     * - Si `index` es negativo o mayor/igual que size, el método retorna null;
+     *   sin embargo no hay una validación explícita del rango al inicio (se recorre y se falla).
+     * - Si `newData` es null, la lista aceptará null (pero operaciones posteriores que llamen
+     *   `equals` sobre ese nodo pueden lanzar NPE).
+     *
+     * @param index   índice del nodo a editar (0-based)
+     * @param newData nuevo valor que se asignará en el nodo
+     * @return la instancia de `Object` modificada (como Object), o null si el índice está fuera de rango
+     */
+    public Object editarNodo(int index,Object newData){
+        Nodo actual = cabeza;
+        int i = 0;
+        while (actual != null) {
+            if (i != index) {
+                actual = actual.getSiguiente();
+                i++;
+            }else{
+                Object oldData = actual.getData();
+                actual.setData(newData);
+                return actual.getData();
+            }
         }
         return null;
     }

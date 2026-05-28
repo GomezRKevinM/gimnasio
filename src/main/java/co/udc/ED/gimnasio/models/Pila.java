@@ -125,7 +125,7 @@ public class Pila {
             Nodo actual = tope;
             while (actual != null){
                 if(actual.getData().equals(dato)) return true;
-                actual = tope.getSiguiente();
+                actual = actual.getSiguiente();
             }
         }
         return false;
