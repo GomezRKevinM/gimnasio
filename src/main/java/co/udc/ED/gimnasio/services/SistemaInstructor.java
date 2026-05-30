@@ -77,13 +77,15 @@ public class SistemaInstructor implements InstructorService {
      */
     @Override
     public Instructor crearInstructor(Instructor instructor) {
+        if(instructor == null){
+            System.out.println(Color.RED + "    [ERROR] instructor sin argumentos" + Color.RESET);
+            return null;
+        }
+
         boolean existe = CustomFixture.INSTRUCTORES.contiene(instructor);
 
         if(existe){
-            System.out.println(Color.RED + "    [ERROR] instructor ya existe en el sistema" + Color.RESET);
-        }
-        if(instructor == null){
-            System.out.println(Color.RED + "    [ERROR] instructor sin argumentos");
+            System.out.println(Color.RED +"    [ERROR] instructor ya existe en el sistema"+ Color.RESET);
             return null;
         }
 
@@ -112,7 +114,20 @@ public class SistemaInstructor implements InstructorService {
      */
     @Override
     public Instructor obtenerInstructorPorCodigo(String codigo) {
-        Instructor instructor = new Instructor(null, UUID.fromString(codigo));
+        if(codigo == null || codigo.isEmpty()){
+            System.out.println(Color.RED +"    [ERROR] El codigo no puede estar vacio."+Color.RESET);
+            return null;
+        }
+
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(codigo);
+        } catch (IllegalArgumentException error) {
+            System.out.println(Color.RED +"    [ERROR] El codigo no tiene formato UUID valido."+Color.RESET);
+            return null;
+        }
+
+        Instructor instructor = new Instructor(null, uuid);
         return (Instructor) CustomFixture.INSTRUCTORES.buscarDato(instructor);
     }
 
@@ -195,8 +210,13 @@ public class SistemaInstructor implements InstructorService {
         Instructor instructor = obtenerInstructorPorCodigo(codigo);
         if(instructor == null){
             System.out.println(Color.RED +"    [ERROR] instructor no encontrado"+Color.RESET);
+            return null;
         }
         int index = CustomFixture.INSTRUCTORES.encontrarIndexDe(instructor);
+        if(index < 0){
+            System.out.println(Color.RED +"    [ERROR] instructor no encontrado"+Color.RESET);
+            return null;
+        }
         EliminarInstructor operacion = new EliminarInstructor(instructor);
         CustomFixture.OPERACIONES.apilar(operacion);
         Instructor eliminado = (Instructor) CustomFixture.INSTRUCTORES.eliminarEnPosicion(index);

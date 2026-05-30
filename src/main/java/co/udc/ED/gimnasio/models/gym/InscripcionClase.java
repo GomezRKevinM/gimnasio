@@ -81,7 +81,8 @@ public record InscripcionClase(
      */
     @Override
     public String toString(){
-        return String.format("[ Fecha: %s | Cliente: %s | Código de Clase: %s ]",  fechaInscripcion, cliente, codigoClase);
+        return String.format("[ Fecha: %s | Cliente: %s | Codigo de Clase: %s | Estado: %s ]",
+                fechaInscripcion, cliente, codigoClase, estado);
     }
 
     /**
