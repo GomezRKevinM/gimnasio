@@ -61,7 +61,6 @@ public class SistemaInscripcionClase implements InscripcionClaseService {
             return null;
         }
 
-        Lista inscripciones = new Lista();
         Clase clase = (Clase) CustomFixture.CLASES.buscarDato(codigoClase);
         if(clase == null){
             System.out.println("    [ERROR] La clase no existe en el sistema");
@@ -216,12 +215,18 @@ public class SistemaInscripcionClase implements InscripcionClaseService {
             return null;
         }
 
-        CustomFixture.OPERACIONES.apilar(new ModificarInscripcion(inscripcion));
-        clase.inscripciones().agregar(inscripcion);
-        CustomFixture.INSCRIPCIONES_FINALIZADAS.agregar(inscripcion);
+        InscripcionClase finalizada = new InscripcionClase(
+                inscripcion.fechaInscripcion(),
+                inscripcion.codigoClase(),
+                inscripcion.cliente(),
+                InscripcionEstado.FINALIZADA);
+
+        CustomFixture.OPERACIONES.apilar(new ModificarInscripcion(finalizada));
+        clase.inscripciones().agregar(finalizada);
+        CustomFixture.INSCRIPCIONES_FINALIZADAS.agregar(finalizada);
         System.out.println(CustomFixture.OPERACIONES.peek().toString());
         System.out.println("    [INFO] La inscripcion ha sido aprobada");
-        return inscripcion;
+        return finalizada;
 
     }
 
@@ -254,9 +259,15 @@ public class SistemaInscripcionClase implements InscripcionClaseService {
             return null;
         }
 
-        CustomFixture.INSCRIPCIONES_CANCELADAS.agregar(inscripcion);
-        CustomFixture.OPERACIONES.apilar(new ModificarInscripcion(inscripcion));
+        InscripcionClase cancelada = new InscripcionClase(
+                inscripcion.fechaInscripcion(),
+                inscripcion.codigoClase(),
+                inscripcion.cliente(),
+                InscripcionEstado.CANCELADA);
+
+        CustomFixture.INSCRIPCIONES_CANCELADAS.agregar(cancelada);
+        CustomFixture.OPERACIONES.apilar(new ModificarInscripcion(cancelada));
         System.out.println("    [INFO] La inscripcion ha sido cancelada");
-        return null;
+        return cancelada;
     }
 }
