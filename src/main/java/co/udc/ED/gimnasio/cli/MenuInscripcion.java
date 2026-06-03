@@ -35,7 +35,7 @@ public class MenuInscripcion {
                 case 9 -> mostrarCantidades();
                 case 10 -> listarPorClase();
                 case 0 -> { }
-                default -> System.out.println("    [ERROR] Opcion no valida.");
+                default -> System.out.println(Color.RED+"    [ERROR] Opcion no valida."+Color.RESET);
             }
         } while (opcion != 0);
     }
@@ -92,7 +92,7 @@ public class MenuInscripcion {
 
     private void crear() {
         if (servicioClase.obtenerClases().cuentaElementos() == 0) {
-            System.out.println("    [ERROR] Primero debe crear al menos una clase.");
+            System.out.println(Color.RED+"    [ERROR] Primero debe crear al menos una clase."+Color.RESET);
             input.pausar();
             return;
         }
@@ -102,7 +102,7 @@ public class MenuInscripcion {
         String codigoClase = input.leerTextoObligatorio("Codigo de clase: ");
         Clase clase = servicioClase.obtenerClasePorCodigo(codigoClase);
         if (clase == null) {
-            System.out.println("    [ERROR] Clase no encontrada.");
+            System.out.println(Color.RED+"    [ERROR] Clase no encontrada."+Color.RESET);
             input.pausar();
             return;
         }

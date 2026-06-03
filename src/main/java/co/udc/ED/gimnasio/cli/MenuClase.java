@@ -31,7 +31,7 @@ public class MenuClase {
                 case 4 -> modificar();
                 case 5 -> eliminar();
                 case 0 -> { }
-                default -> System.out.println("    [ERROR] Opcion no valida.");
+                default -> System.out.println(Color.RED+"    [ERROR] Opcion no valida."+Color.RESET);
             }
         } while (opcion != 0);
     }
@@ -70,7 +70,7 @@ public class MenuClase {
         String codigo = input.leerTextoObligatorio("Codigo de clase a modificar: ");
         Clase actual = servicioClase.obtenerClasePorCodigo(codigo);
         if (actual == null) {
-            System.out.println("    [ERROR] Clase no encontrada.");
+            System.out.println(Color.RED+"    [ERROR] Clase no encontrada."+Color.RESET);
             input.pausar();
             return;
         }
@@ -86,7 +86,7 @@ public class MenuClase {
         String codigo = input.leerTextoObligatorio("Codigo de clase a eliminar: ");
         Clase clase = servicioClase.obtenerClasePorCodigo(codigo);
         if (clase == null) {
-            System.out.println("    [ERROR] Clase no encontrada.");
+            System.out.println(Color.RED+"    [ERROR] Clase no encontrada."+Color.RESET);
         } else {
             imprimirResultado(servicioClase.eliminarClase(clase));
         }
@@ -95,7 +95,7 @@ public class MenuClase {
 
     private Clase leerDatosClase(Clase actual) {
         if (servicioInstructor.obtenerInstructores().cuentaElementos() == 0) {
-            System.out.println("    [ERROR] Primero debe crear al menos un instructor.");
+            System.out.println(Color.RED+"    [ERROR] Primero debe crear al menos un instructor."+Color.RESET);
             return null;
         }
 
@@ -111,7 +111,7 @@ public class MenuClase {
         String codigoInstructor = input.leerTextoObligatorio("Codigo UUID del instructor: ");
         Instructor instructor = servicioInstructor.obtenerInstructorPorCodigo(codigoInstructor);
         if (instructor == null) {
-            System.out.println("    [ERROR] Instructor no encontrado.");
+            System.out.println(Color.RED+"    [ERROR] Instructor no encontrado."+Color.RESET);
             return null;
         }
 

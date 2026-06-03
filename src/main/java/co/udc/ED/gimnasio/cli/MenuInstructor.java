@@ -28,7 +28,7 @@ public class MenuInstructor {
                 case 5 -> eliminar();
                 case 6 -> listarEliminados();
                 case 0 -> { }
-                default -> System.out.println("    [ERROR] Opcion no valida.");
+                default -> System.out.println(Color.RED + "    [ERROR] Opcion no valida." + Color.RESET);
             }
         } while (opcion != 0);
     }
@@ -73,7 +73,7 @@ public class MenuInstructor {
         String codigo = input.leerTextoObligatorio("Codigo UUID del instructor: ");
         Instructor actual = servicio.obtenerInstructorPorCodigo(codigo);
         if (actual == null) {
-            System.out.println("    [ERROR] Instructor no encontrado.");
+            System.out.println(Color.RED + "    [ERROR] Instructor no encontrado." + Color.RESET);
             input.pausar();
             return;
         }
