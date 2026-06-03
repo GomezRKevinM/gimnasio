@@ -113,6 +113,10 @@ public class Cola {
         return size;
     }
 
+    public int tamanio(){
+        return size();
+    }
+
     /**
      * Verifica si la cola está vacía
      *
@@ -170,6 +174,10 @@ public class Cola {
             actual = actual.getSiguiente();
             i++;
         }
+    }
+
+    public void mostrar(){
+        mostar();
     }
 
     /**

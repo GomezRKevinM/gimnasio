@@ -61,6 +61,8 @@ import co.udc.ED.gimnasio.models.gym.Instructor;
  */
 public interface InscripcionClaseService {
 
+    Lista obtenerInscripcionesRegistradas();
+
     /**
      * Obtiene la cola de todas las inscripciones en estado PENDIENTE.
      *
@@ -127,6 +129,8 @@ public interface InscripcionClaseService {
      */
     InscripcionClase obtenerInscripcionPendiente();
 
+    co.udc.ED.gimnasio.models.Pila obtenerHistorialProcesadas();
+
     /**
      * Obtiene todas las inscripciones en estado FINALIZADA.
      *
@@ -166,6 +170,14 @@ public interface InscripcionClaseService {
      * @see co.udc.ED.gimnasio.enums.InscripcionEstado#PENDIENTE
      */
     InscripcionClase agregarInscripcion(String cliente, Clase clase);
+
+    InscripcionClase obtenerInscripcionPorCodigo(String codigo);
+
+    InscripcionClase procesarSiguienteInscripcion();
+
+    InscripcionClase cancelarInscripcionPendiente(String codigo);
+
+    InscripcionClase deshacerUltimoProcesamiento();
 
     /**
      * Aprueba una inscripción pendiente, cambiando su estado a FINALIZADA.

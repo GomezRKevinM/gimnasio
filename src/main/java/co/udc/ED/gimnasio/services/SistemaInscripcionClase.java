@@ -35,6 +35,11 @@ public class SistemaInscripcionClase implements InscripcionClaseService {
      * @see InscripcionClase#estado()
      */
     @Override
+    public Lista obtenerInscripcionesRegistradas() {
+        return CustomFixture.INSCRIPCIONES_REGISTRADAS;
+    }
+
+    @Override
     public Cola obtenerInscripcionesPendientes() {
         return CustomFixture.INSCRIPCIONES;
     }
@@ -105,6 +110,11 @@ public class SistemaInscripcionClase implements InscripcionClaseService {
         return (InscripcionClase) CustomFixture.INSCRIPCIONES.desencolar();
     }
 
+    @Override
+    public co.udc.ED.gimnasio.models.Pila obtenerHistorialProcesadas() {
+        return CustomFixture.HISTORIAL_INSCRIPCIONES_PROCESADAS;
+    }
+
     /**
      * Obtiene todas las inscripciones en estado FINALIZADA.
      * <p>
@@ -162,10 +172,37 @@ public class SistemaInscripcionClase implements InscripcionClaseService {
             Timestamp fechaActual = new Timestamp(System.currentTimeMillis());
 
             InscripcionClase inscripcion = new InscripcionClase(fechaActual,clase.codigo(),cliente,estado);
+            if(CustomFixture.INSCRIPCIONES_REGISTRADAS.contiene(inscripcion)){
+                System.out.println("    [ERROR] La inscripcion ya existe");
+                return null;
+            }
+            CustomFixture.INSCRIPCIONES_REGISTRADAS.agregar(inscripcion);
             CustomFixture.INSCRIPCIONES.encolar(inscripcion);
             CustomFixture.OPERACIONES.apilar(new CrearInscripcion(inscripcion));
             System.out.println(CustomFixture.OPERACIONES.peek().toString());
             return inscripcion;
+    }
+
+    @Override
+    public InscripcionClase obtenerInscripcionPorCodigo(String codigo) {
+        if(codigo == null || codigo.isEmpty()){
+            System.out.println("    [ERROR] El codigo de inscripcion no puede estar vacio");
+            return null;
+        }
+        InscripcionClase inscripcion = (InscripcionClase) CustomFixture.INSCRIPCIONES_REGISTRADAS.buscarDato(codigo);
+        if(inscripcion == null){
+            System.out.println("    [ERROR] La inscripcion no existe");
+        }
+        return inscripcion;
+    }
+
+    @Override
+    public InscripcionClase procesarSiguienteInscripcion() {
+        InscripcionClase pendiente = obtenerInscripcionPendiente();
+        if(pendiente == null){
+            return null;
+        }
+        return aprobarInscripcion(pendiente);
     }
 
     /**
@@ -224,6 +261,8 @@ public class SistemaInscripcionClase implements InscripcionClaseService {
         CustomFixture.OPERACIONES.apilar(new ModificarInscripcion(finalizada));
         clase.inscripciones().agregar(finalizada);
         CustomFixture.INSCRIPCIONES_FINALIZADAS.agregar(finalizada);
+        CustomFixture.HISTORIAL_INSCRIPCIONES_PROCESADAS.apilar(finalizada);
+        actualizarInscripcionRegistrada(finalizada);
         System.out.println(CustomFixture.OPERACIONES.peek().toString());
         System.out.println("    [INFO] La inscripcion ha sido aprobada");
         return finalizada;
@@ -267,7 +306,80 @@ public class SistemaInscripcionClase implements InscripcionClaseService {
 
         CustomFixture.INSCRIPCIONES_CANCELADAS.agregar(cancelada);
         CustomFixture.OPERACIONES.apilar(new ModificarInscripcion(cancelada));
+        actualizarInscripcionRegistrada(cancelada);
         System.out.println("    [INFO] La inscripcion ha sido cancelada");
         return cancelada;
+    }
+
+    @Override
+    public InscripcionClase cancelarInscripcionPendiente(String codigo) {
+        InscripcionClase objetivo = obtenerInscripcionPorCodigo(codigo);
+        if(objetivo == null || objetivo.estado() != InscripcionEstado.PENDIENTE){
+            System.out.println("    [ERROR] Solo se pueden cancelar inscripciones pendientes");
+            return null;
+        }
+
+        Cola auxiliar = new Cola();
+        InscripcionClase cancelada = null;
+        int total = CustomFixture.INSCRIPCIONES.tamanio();
+
+        for(int i = 0; i < total; i++){
+            InscripcionClase actual = (InscripcionClase) CustomFixture.INSCRIPCIONES.desencolar();
+            if(actual.equals(objetivo)){
+                cancelada = cancelarInscripcion(actual);
+            }else{
+                auxiliar.encolar(actual);
+            }
+        }
+
+        while(!auxiliar.esVacia()){
+            CustomFixture.INSCRIPCIONES.encolar(auxiliar.desencolar());
+        }
+
+        if(cancelada == null){
+            System.out.println("    [ERROR] La inscripcion no esta en la cola de pendientes");
+        }
+        return cancelada;
+    }
+
+    @Override
+    public InscripcionClase deshacerUltimoProcesamiento() {
+        InscripcionClase ultima = (InscripcionClase) CustomFixture.HISTORIAL_INSCRIPCIONES_PROCESADAS.desapilar();
+        if(ultima == null){
+            return null;
+        }
+
+        InscripcionClase pendiente = new InscripcionClase(
+                ultima.codigoInscripcion(),
+                ultima.fechaInscripcion(),
+                ultima.codigoClase(),
+                ultima.cliente(),
+                InscripcionEstado.PENDIENTE);
+
+        eliminarDeLista(CustomFixture.INSCRIPCIONES_FINALIZADAS, ultima);
+        Clase clase = (Clase) CustomFixture.CLASES.buscarDato(ultima.codigoClase());
+        if(clase != null){
+            eliminarDeLista(clase.inscripciones(), ultima);
+        }
+
+        CustomFixture.INSCRIPCIONES.encolar(pendiente);
+        actualizarInscripcionRegistrada(pendiente);
+        CustomFixture.OPERACIONES.apilar(new ModificarInscripcion(pendiente));
+        System.out.println("    [INFO] Se deshizo el ultimo procesamiento");
+        return pendiente;
+    }
+
+    private void actualizarInscripcionRegistrada(InscripcionClase inscripcion) {
+        int index = CustomFixture.INSCRIPCIONES_REGISTRADAS.encontrarIndexDe(inscripcion);
+        if(index >= 0){
+            CustomFixture.INSCRIPCIONES_REGISTRADAS.editarNodo(index, inscripcion);
+        }
+    }
+
+    private void eliminarDeLista(Lista lista, InscripcionClase inscripcion) {
+        int index = lista.encontrarIndexDe(inscripcion);
+        if(index >= 0){
+            lista.eliminarEnPosicion(index);
+        }
     }
 }

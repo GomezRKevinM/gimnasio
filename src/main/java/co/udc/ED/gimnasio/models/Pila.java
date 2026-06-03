@@ -102,6 +102,10 @@ public class Pila {
         return size;
     }
 
+    public int tamanio(){
+        return size();
+    }
+
     /**
      * Indica si la pila está vacía.
      *
